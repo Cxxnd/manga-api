@@ -25,6 +25,9 @@ app.use("*", (req, res) => {
     message: "api path not found",
   });
 });
+app.use("/", (res) => {
+  res.redirect("/api");
+})
 
 app.listen(PORT, () => {
   console.log("Listening on PORT:" + PORT);

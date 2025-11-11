@@ -1,8 +1,7 @@
 const router = require("express").Router();
 const cheerio = require("cheerio");
-const {baseUrl, baseApi} = require("../constants/urls");
+const { baseApi } = require("../constants/urls");
 const replaceMangaPage = "https://komiku.org/manga/";
-const AxiosService = require("../helpers/axiosService");
 
 // manga popular ----Ignore this for now --------
 router.get("/manga/popular", async (req, res) => {
@@ -138,7 +137,7 @@ router.get("/manga/detail/:slug", async (req, res) => {
 //serach manga ------Done-----------
 router.get("/search/", async (req, res) => {
   const query = req.query.q;
-  const url =  baseApi + `?post_type=manga&s=${query}`;
+  const url = baseApi + `?post_type=manga&s=${query}`;
 
   try {
     const response = await AxiosService(url);
