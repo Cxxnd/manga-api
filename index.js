@@ -17,7 +17,7 @@ app.use("/api", (req, res) => {
     status: true,
     message:
       "Success access to api"
-  },);
+  });
 });
 app.use("*", (req, res) => {
   res.status(404).json({
@@ -26,7 +26,11 @@ app.use("*", (req, res) => {
   });
 });
 app.use("/", (res) => {
-  res.redirect("/api");
+  res.send({
+    status: true,
+    message: "Welcome to My API",
+    create: "FazaZakyIbrahim",
+  })
 })
 
 app.listen(PORT, () => {
