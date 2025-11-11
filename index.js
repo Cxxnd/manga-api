@@ -22,7 +22,7 @@ app.use("/api", (req, res) => {
 app.use("", (req, res) => {
   res.status(404).json({
     success: false,
-    message: "api path not found",
+    message: "access to /api for using this service/wrong endpoint",
   });
 });
 app.use("/", (res) => {
