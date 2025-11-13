@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const manga = require("./routers/manga");
+const anime = require("./routers/anime.js");
 const chapter = require("./routers/chapter");
 const cors = require("cors");
 const helmet = require("helmet");
@@ -10,6 +11,7 @@ const helmet = require("helmet");
 app.use(cors());
 app.use(helmet());
 app.use("/api", manga);
+app.use("/api", anime);
 app.use(express.static("./public"));
 app.use("/api/chapter", chapter);
 app.use("", (req, res) => {
@@ -30,7 +32,4 @@ app.get("/", (req, res) => {
   });
 });
 
-app.use("/api", animeRouter);
-app.use("/api", mangaRouter);
-
-app.listen(PORT, () => console.log("🚀 API Ready at http://localhost:5000"));
+app.listen(PORT, () => console.log(`🚀 API Ready at http://localhost:${PORT}`));
