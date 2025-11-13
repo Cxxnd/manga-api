@@ -1,22 +1,25 @@
-const axios = require("axios").default;
-const {baseUrl} = require("../constants/urls");
-const axiosCookieJarSupport = require("axios-cookiejar-support").default;
-axiosCookieJarSupport(axios);
+import axios from "axios";
 
-axios.defaults.baseURL = baseUrl;
+const userAgents = [
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+  "Mozilla/5.0 (X11; Linux x86_64)",
+  "Mozilla/5.0 (Linux; Android 10; SM-G973F)",
+  "Mozilla/5.0 (iPhone; CPU iPhone OS 15_2 like Mac OS X)",
+];
 
-const AxiosService = async (url) => {
-  return new Promise(async (resolve, reject) => {
-    const _url = url == null?url:encodeURI(url);
-    try {
-      const response = await axios.get(_url);
-      if (response.status === 200) {
-        return resolve(response);
-      }
-      return reject(response);
-    } catch (error) {
-      return reject(error.message);
-    }
-  });
-};
-module.exports = AxiosService;
+let currentAgent = userAgents[0];
+setInterval(() => {
+  currentAgent = userAgents[Math.floor(Math.random() * userAgents.length)];
+  console.log(`[ROTATE UA] ${currentAgent}`);
+}, 60 * 1000);
+
+export const AxiosService = axios.create({
+  timeout: 20000,
+});
+
+AxiosService.interceptors.request.use((config) => {
+  config.headers["User-Agent"] = currentAgent;
+  config.headers["Accept-Language"] = "en-US,en;q=0.9";
+  return config;
+});

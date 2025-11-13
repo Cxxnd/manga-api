@@ -12,27 +12,25 @@ app.use(helmet());
 app.use("/api", manga);
 app.use(express.static("./public"));
 app.use("/api/chapter", chapter);
-app.use("/api", (req, res) => {
-  res.send({
-    status: true,
-    message:
-      "Success access to api"
-  });
-});
 app.use("", (req, res) => {
   res.status(404).json({
     success: false,
     message: "access to /api for using this service/wrong endpoint",
   });
 });
-app.use("/", (res) => {
-  res.send({
-    status: true,
-    message: "Welcome to My API",
-    create: "FazaZakyIbrahim",
-  })
-})
-
-app.listen(PORT, () => {
-  console.log("Listening on PORT:" + PORT);
+// Route utama
+app.get("/", (req, res) => {
+  res.json({
+    status: "running",
+    author: "Sanka Vollerei",
+    routes: {
+      anime: ["/api/anime/home", "/api/anime/search/:query"],
+      manga: ["/api/manga/page/:page", "/api/manga/detail/:slug"],
+    },
+  });
 });
+
+app.use("/api", animeRouter);
+app.use("/api", mangaRouter);
+
+app.listen(PORT, () => console.log("🚀 API Ready at http://localhost:5000"));
